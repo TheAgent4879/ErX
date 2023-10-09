@@ -2,7 +2,7 @@ local gameIds = 4483381587
 
 if game.PlaceId == gameIds then
 
-loadstring(game:HttpGet(('https://raw.githubusercontent.com/Exunys/ESP-Script/main/ESP.lua')))()
+loadstring(game:HttpGet(('https://raw.githubusercontent.com/TheAgent4879/ErX/main/ESP?token=GHSAT0AAAAAACIVEDAXIR362DTIH6D43X7MZJEDQWQ')))()
 
 _G.SendNotifications = false
 _G.ESPVisible = false
