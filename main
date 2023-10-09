@@ -1,0 +1,101 @@
+local gameIds = 4483381587
+
+if game.PlaceId == gameIds then
+
+loadstring(game:HttpGet(('https://raw.githubusercontent.com/Exunys/ESP-Script/main/ESP.lua')))()
+
+_G.SendNotifications = false
+_G.ESPVisible = false
+
+local Atlas = loadstring(game:HttpGet("https://siegehub.net/Atlas.lua"))()
+
+local UI = Atlas.new({
+    Name = "ErX"; -- script name (required)
+    ConfigFolder = "ErX"; -- folder name to save configs to, set this to nil if you want to disable configs saving
+    Credit = "Made By The Agent#4879"; -- text to appear if player presses the "i" button on their UI (optional)
+    Color = Color3.fromRGB(255,0,0); -- theme color for UI (required)
+    Bind = "LeftControl"; -- keybind for toggling the UI, must be a valid KeyCode name
+    -- Atlas Loader:
+    UseLoader = true; -- whether to use Atlas Loader or not, if set to false than CheckKey and Discord are ignored
+    FullName = "ErX"; -- works if UseLoader is set to true, can be same as Name argument, shown on loader frame
+    CheckKey = function(inputtedKey) -- works if UseLoader is set to true, where inputtedKey is the key inputted by the player
+        return inputtedKey=="key"
+    end;
+    Discord = "https://discord.gg/xu5dDS3Pb9"; -- works if UseLoader is set to true, will be copied to clipboard if player presses "Copy Invite" button
+})
+
+local MainPage = UI:CreatePage("Main")
+
+local MainSection = MainPage:CreateSection("Player")
+
+MainSection:CreateSlider({ -- IMPORTANT: This function does not return anything, please modify flags directly in order to read or update toggle values. SCROLL TO BOTTOM OF PAGE TO SEE HOW TO MODIFY FLAGS
+    Name = "Player Speed"; -- required: name of element
+    Flag = "MySlider"; -- required: unique flag name to use
+    Min = 16; -- required: slider minimum drag
+    Max = 100; -- required: slider maximum drag (Max>Min or else script will error)
+    AllowOutOfRange = false; -- optional: determines whether the player can enter values outside of range Min:Max when typing in the TextBox. If left nil, this is false
+    Digits = 0; -- optional: digits for rounding when dragging or entering values, default is 0 (whole numbers)
+    Default = 16; -- optional: default value for slider, will be used if config saving is disabled and there is no saved data, will be the Min value if left nil
+    Callback = function(newValue) -- optional: function that will be called whenever slider flag is changed
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = newValue;
+    end;
+    -- Scroll to the bottom of the page to read more about the following two:
+    Warning = "Changes player speed"; -- optional: this argument is used in all elements (except for Body) and will indicate text that will appear when the player hovers over the warning icon
+    WarningIcon = 11109991278; -- optional: ImageAssetId for warning icon, will only be used if Warning is not nil, default is yellow warning icon.
+})
+
+MainSection:CreateSlider({ -- IMPORTANT: This function does not return anything, please modify flags directly in order to read or update toggle values. SCROLL TO BOTTOM OF PAGE TO SEE HOW TO MODIFY FLAGS
+    Name = "Player Jump Power"; -- required: name of element
+    Flag = "MySlider1"; -- required: unique flag name to use
+    Min = 50; -- required: slider minimum drag
+    Max = 100; -- required: slider maximum drag (Max>Min or else script will error)
+    AllowOutOfRange = false; -- optional: determines whether the player can enter values outside of range Min:Max when typing in the TextBox. If left nil, this is false
+    Digits = 0; -- optional: digits for rounding when dragging or entering values, default is 0 (whole numbers)
+    Default = 50; -- optional: default value for slider, will be used if config saving is disabled and there is no saved data, will be the Min value if left nil
+    Callback = function(newValue) -- optional: function that will be called whenever slider flag is changed
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = newValue;
+    end;
+    -- Scroll to the bottom of the page to read more about the following two:
+    Warning = "Changes player jump power"; -- optional: this argument is used in all elements (except for Body) and will indicate text that will appear when the player hovers over the warning icon
+    WarningIcon = 11109991278; -- optional: ImageAssetId for warning icon, will only be used if Warning is not nil, default is yellow warning icon.
+})
+
+MainSection:CreateButton({
+    Name = "Reset character"; -- required: name of element
+    Callback = function() -- required: function to be called when button is pressed
+		game.Players.LocalPlayer.Character.Head:Destroy()        	
+    end
+})
+
+local MiscPage = UI:CreatePage("Misc")
+
+local EspSection = MiscPage:CreateSection("ESP")
+
+EspSection:CreateColorPicker({
+    Name = "Text Color"; -- required: name of element
+    Flag = "ColorPicker"; -- required: unique flag name to use for element
+    Default = Color3.fromRGB(255, 80, 10); -- required: Color3 that will be used when config saving is disabled or there is no saved configs
+    Callback = function(newColor) -- optional: function to be called when the color is changed by the player
+        print(newColor)
+    end;
+    -- Scroll to the bottom of the page to read more about the following two:
+    Warning = "This has a warning"; -- optional: this argument is used in all elements (except for Body) and will indicate text that will appear when the player hovers over the warning icon
+    WarningIcon = 12345; -- optional: ImageAssetId for warning icon, will only be used if Warning is not nil, default is yellow warning icon.
+})
+
+EspSection:CreateToggle({ -- IMPORTANT: This function does not return anything, please modify flags directly in order to read or update toggle values. SCROLL TO BOTTOM OF PAGE TO SEE HOW TO MODIFY FLAGS
+    Name = "ESP"; -- required: name of element
+    Flag = "MyToggle32"; -- required: unique flag name to use
+    Default = false; -- optional: default value for toggle, will be used if config saving is disabled and there is no saved data, will be false if left nil
+    Callback = function(newValue) -- optional: function that will be called when toggled, it is reccomended to modify flags directly
+    	if newValue then
+    		_G.ESPVisible = true
+        else
+        	_G.ESPVisible = false
+    	end
+    end;
+    -- Scroll to the bottom of the page to read more about the following two:
+    Warning = "Enables / Disables ESP"; -- optional: this argument is used in all elements (except for Body) and will indicate text that will appear when the player hovers over the warning icon
+    WarningIcon = 11109991278; -- optional: ImageAssetId for warning icon, will only be used if Warning is not nil, default is yellow warning icon.
+})
+end
